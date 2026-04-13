@@ -372,6 +372,14 @@ We added it after a timeout during a 12-article batch created 12 duplicate WordP
 
 ---
 
+## Workflow Architecture
+
+![Workflow Architecture](docs/workflow-architecture.jpg)
+
+All 6 workflows run on n8n Cloud. Red dashed arrows show error routing — every workflow routes failures to the centralized error handler. White arrows show the primary data flow: articles pass through the Editorial Gate and RSS Intake into the Content Pipeline, which outputs to Google Docs and WordPress simultaneously. The Form Intake and Document Receiver are independent intake channels that feed the same master sheet.
+
+---
+
 ## Repository Structure
 
 ```
