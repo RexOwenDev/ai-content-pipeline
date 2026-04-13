@@ -34,7 +34,7 @@
       "name": "Trigger: Receive Emails",
       "credentials": {
         "gmailOAuth2": {
-          "id": "[CREDENTIAL_ID_GMAIL]",
+          "id": "[CREDENTIAL_ID]",
           "name": "[[CLIENT] - admin@[CLIENT_DOMAIN]] Gmail account"
         }
       }
@@ -99,10 +99,10 @@
       ],
       "id": "f55e190e-6e81-4b8c-933e-1313f456475a",
       "name": "Send a message",
-      "webhookId": "[WEBHOOK_ID_B]",
+      "webhookId": "[WEBHOOK_ID]",
       "credentials": {
         "gmailOAuth2": {
-          "id": "[CREDENTIAL_ID_GMAIL]",
+          "id": "[CREDENTIAL_ID]",
           "name": "[[CLIENT] - admin@[CLIENT_DOMAIN]] Gmail account"
         }
       }
@@ -345,7 +345,7 @@
       "name": "Update row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "[CREDENTIAL_ID_SHEETS]",
+          "id": "[CREDENTIAL_ID]",
           "name": "[[CLIENT] - admin@[CLIENT_DOMAIN]] Google Sheets account"
         }
       }
@@ -438,7 +438,7 @@
       "name": "Get row(s) in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "[CREDENTIAL_ID_SHEETS]",
+          "id": "[CREDENTIAL_ID]",
           "name": "[[CLIENT] - admin@[CLIENT_DOMAIN]] Google Sheets account"
         }
       }

@@ -111,7 +111,7 @@
       "name": "Message a model",
       "credentials": {
         "openAiApi": {
-          "id": "[CREDENTIAL_ID_OPENAI]",
+          "id": "[CREDENTIAL_ID]",
           "name": "OpenAI Production"
         }
       },
