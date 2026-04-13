@@ -1,0 +1,26 @@
+# Environment and secrets — never commit these
+.env
+.env.local
+.env.production
+*.env
+secrets.json
+credentials.json
+service-account.json
+
+# n8n export artifacts
+*.bak
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
