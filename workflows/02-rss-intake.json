@@ -10,9 +10,7 @@
     {
       "parameters": {
         "url": "={{ $json.feeds }}",
-        "options": {
-          "ignoreSSL": true
-        }
+        "options": {}
       },
       "type": "n8n-nodes-base.rssFeedRead",
       "typeVersion": 1.2,
@@ -205,7 +203,7 @@
       "name": "Append or update row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "8UYwvprhMGHKF6ra",
+          "id": "[CREDENTIAL_ID]",
           "name": "automation@[AGENCY_DOMAIN]"
         }
       },

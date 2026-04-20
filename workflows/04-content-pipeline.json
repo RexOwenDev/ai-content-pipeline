@@ -56,7 +56,7 @@
       "name": "Message a model",
       "credentials": {
         "openAiApi": {
-          "id": "bGDlX6HiAGhitXLG",
+          "id": "[CREDENTIAL_ID]",
           "name": "[CLIENT]"
         }
       },
@@ -181,7 +181,7 @@
       "waitBetweenTries": 3000,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "jr25MKfV6H2zSwxO",
+          "id": "[CREDENTIAL_ID]",
           "name": "Google Sheets account"
         }
       }
@@ -210,7 +210,7 @@
       "name": "Insert text to document",
       "credentials": {
         "googleDocsOAuth2Api": {
-          "id": "Vdifwq9lKoSXdEIj",
+          "id": "[CREDENTIAL_ID]",
           "name": "Google Docs account"
         }
       }
@@ -247,7 +247,7 @@
       "name": "Create a post",
       "credentials": {
         "wordpressApi": {
-          "id": "apu6UY3Ke6WNXjpp",
+          "id": "[CREDENTIAL_ID]",
           "name": "WordPress Client Account"
         }
       },
@@ -361,7 +361,7 @@
       "waitBetweenTries": 3000,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "jr25MKfV6H2zSwxO",
+          "id": "[CREDENTIAL_ID]",
           "name": "Google Sheets account"
         }
       }
@@ -482,7 +482,7 @@
       "waitBetweenTries": 3000,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "jr25MKfV6H2zSwxO",
+          "id": "[CREDENTIAL_ID]",
           "name": "Google Sheets account"
         }
       }
@@ -551,7 +551,7 @@
       "waitBetweenTries": 3000,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "jr25MKfV6H2zSwxO",
+          "id": "[CREDENTIAL_ID]",
           "name": "Google Sheets account"
         }
       }
@@ -611,7 +611,7 @@
       ],
       "credentials": {
         "googleDocsOAuth2Api": {
-          "id": "Vdifwq9lKoSXdEIj",
+          "id": "[CREDENTIAL_ID]",
           "name": "Google Docs account"
         }
       }
@@ -651,7 +651,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const item = $input.first().json;\n\n// Support both OpenAI node output formats:\n// typeVersion 1.x (Chat Completions): item.message.content\n// typeVersion 2.x (Responses API):    item.output[0].content[0].text\nlet article = {};\n\nif (item.message && item.message.content) {\n  // typeVersion 1.x — already a parsed object when jsonOutput: true\n  article = item.message.content;\n} else if (item.output && item.output[0] && item.output[0].content && item.output[0].content[0]) {\n  const raw = item.output[0].content[0].text;\n  if (typeof raw === 'string') {\n    try {\n      article = JSON.parse(raw);\n    } catch (e) {\n      // Model returned plain text instead of JSON (e.g. greeting, refusal, or incomplete response)\n      article = { error: 'invalid_response' };\n    }\n  } else {\n    // Already a parsed object (jsonOutput: true auto-parsed it)\n    article = raw || {};\n  }\n}\n\nreturn [{\n  json: {\n    title:            article.title            || '',\n    slug:             article.slug             || '',\n    content:          article.content          || '',\n    wp_content:       article.wp_content       || '',\n    category:         article.category         || '',\n    meta_description: article.meta_description || '',\n    _firstPassError:  article.error            || null\n  }\n}];"
+        "jsCode": "const item = $input.first().json;\n\n// Support both OpenAI node output formats:\n// typeVersion 1.x (Chat Completions): item.message.content\n// typeVersion 2.x (Responses API):    item.output[0].content[0].text\nlet article = {};\n\nif (item.message && item.message.content) {\n  // typeVersion 1.x — already a parsed object when jsonOutput: true\n  article = item.message.content;\n} else if (item.output && item.output[0] && item.output[0].content && item.output[0].content[0]) {\n  const raw = item.output[0].content[0].text;\n  if (typeof raw === 'string') {\n    try {\n      article = JSON.parse(raw);\n    } catch (e) {\n      // Model returned plain text instead of JSON (e.g. greeting, refusal, or incomplete response)\n      article = { error: 'invalid_response' };\n    }\n  } else {\n    // Already a parsed object (jsonOutput: true auto-parsed it)\n    article = raw || {};\n  }\n}\n\nreturn [{\n  json: {\n    title:            article.title            || '',\n    slug:             article.slug             || '',\n    content:          article.content          || '',\n    wp_content:       article.wp_content       || '',\n    category:         article.category         || '',\n    meta_description: article.meta_description || '',\n    _firstPassError:  article.error            || null\n  },\n  pairedItem: { item: 0 }\n}];"
       },
       "id": "a1b2c3d4-0000-1111-2222-333344445555",
       "name": "Parse First Pass",

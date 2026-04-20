@@ -11,7 +11,9 @@
       "parameters": {
         "httpMethod": "POST",
         "path": "[WEBHOOK_ID]",
-        "options": {}
+        "options": {
+          "rawBody": true
+        }
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
@@ -876,6 +878,19 @@
           "name": "[[CLIENT] - admin@[CLIENT_DOMAIN]] Gmail account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\nconst item = $input.first();\nconst signature = (item.json.headers?.['x-gf-signature'] || '').trim();\nconst rawBody = item.json.rawBody || JSON.stringify(item.json.body || {});\nconst secret = $vars.WEBHOOK_SECRET || '';\nif (!secret) throw new Error('WEBHOOK_SECRET variable not configured');\nif (!signature) throw new Error('Missing X-Gf-Signature header — request rejected');\nconst expected = 'sha256=' + crypto.createHmac('sha256', secret).update(rawBody).digest('hex');\nif (signature !== expected) throw new Error('Webhook signature mismatch — possible spoofed request');\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        -208
+      ],
+      "id": "a9b1c2d3-e4f5-6789-abcd-ef0123456789",
+      "name": "Verify Webhook Signature"
     }
   ],
   "connections": {
@@ -883,7 +898,7 @@
       "main": [
         [
           {
-            "node": "Trigger GravityForm submission",
+            "node": "Verify Webhook Signature",
             "type": "main",
             "index": 0
           }
@@ -950,7 +965,7 @@
       "main": [
         [
           {
-            "node": "Send DocuSign email",
+            "node": "Get row(s) in sheet",
             "type": "main",
             "index": 0
           }
@@ -977,7 +992,13 @@
             "index": 0
           }
         ],
-        []
+        [
+          {
+            "node": "Send DocuSign email",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Get row(s) in sheet": {
@@ -993,6 +1014,11 @@
     },
     "Send DocuSign email": {
       "main": [
+        []
+      ]
+    },
+    "Send Reject (Startup) email": {
+      "main": [
         [
           {
             "node": "Get row(s) in sheet",
@@ -1002,11 +1028,11 @@
         ]
       ]
     },
-    "Send Reject (Startup) email": {
+    "Verify Webhook Signature": {
       "main": [
         [
           {
-            "node": "Get row(s) in sheet",
+            "node": "Trigger GravityForm submission",
             "type": "main",
             "index": 0
           }
