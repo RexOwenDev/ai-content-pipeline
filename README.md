@@ -7,7 +7,7 @@
 ![Cost](https://img.shields.io/badge/cost-%240.003%2Frun-lightgrey)
 ![Workflows](https://img.shields.io/badge/active%20workflows-6-orange)
 ![Platform](https://img.shields.io/badge/platform-n8n%20Cloud-FF6D5A)
-![AI](https://img.shields.io/badge/AI-GPT--4.1--mini-412991)
+![AI](https://img.shields.io/badge/AI-GPT--5.4--mini-412991)
 
 Most content operations waste their most expensive resource — editorial judgment — on mechanical work. This pipeline separates the two. AI handles sourcing, screening, and drafting. Editors handle approval. Everything else is automated.
 
@@ -64,7 +64,7 @@ This pipeline addresses all three. The mechanical layer — sourcing, screening,
 
 Six interconnected n8n workflows that form a complete content production pipeline:
 
-1. **Editorial Gate** evaluates manually-submitted article URLs against a 5-criteria quality rubric using GPT-4.1-mini. Articles that pass go into the approval queue. Rejections are logged with a specific reason.
+1. **Editorial Gate** evaluates manually-submitted article URLs against a 5-criteria quality rubric using gpt-5.4-mini. Articles that pass go into the approval queue. Rejections are logged with a specific reason.
 2. **RSS Intake** pulls from multiple industry sources on a schedule, runs each article through a weighted relevance scoring algorithm, and deduplicates against existing content before appending to the queue.
 3. **Content Pipeline** triggers when an editor approves an article, fetches the full text, generates a complete blog draft via AI, creates a Google Doc, posts a WordPress draft, and logs timestamps and links back to the source sheet.
 4. **Form Intake** handles new submissions via webhook, routes by submission type, deduplicates against existing records, and appends to the master sheet.
@@ -79,7 +79,7 @@ Six interconnected n8n workflows that form a complete content production pipelin
 flowchart TD
     subgraph P0["Phase 0 — Editorial Gate (every 30 min)"]
         A[Manual URL Input\nGoogle Sheets] --> B[Fetch Article\nHTTP Request\n10s timeout]
-        B --> C[GPT-4.1-mini\n5-Criteria Evaluation]
+        B --> C[gpt-5.4-mini\n5-Criteria Evaluation]
         C -->|"≥4/5 criteria met"| D["✓ PASS — Ready for review"]
         C -->|"<4 criteria"| E["✗ FAIL — Reason logged"]
     end
@@ -99,7 +99,7 @@ flowchart TD
     subgraph P345["Phase 3+4+5 — Content Pipeline (on APPROVE)"]
         N["Editor sets ADMIN ACTION = Approve"] --> O[Fetch Full Article\nHTTP 30s timeout\nMozilla UA]
         O --> P[Extract text\n4000 char limit]
-        P --> Q[GPT-4.1-mini\nBlog draft generation]
+        P --> Q[gpt-5.4-mini\nBlog draft generation]
         Q --> R[Create Google Doc\nDated title]
         Q --> S[Create WordPress Draft\nSlug · Category · Meta]
         R --> T[Update Sheet\nTimestamps + links]
@@ -294,7 +294,7 @@ flowchart TD
 | HTTP Request → OpenAI (raw JSON parse) | n8n Information Extractor node | Schema-enforced output, no fragile string parsing |
 | URL-based deduplication | Semantic similarity via pgvector | Catches the same story from two different sources |
 | Spreadsheet cell approval | Slack Approve/Reject buttons | Editors approve in 10 seconds without opening a browser |
-| GPT-4.1-mini flat routing | Claude (editorial) / GPT (factual) | ~40% cost reduction, better narrative quality |
+| gpt-5.4-mini flat routing | Claude (editorial) / GPT (factual) | ~40% cost reduction, better narrative quality |
 | No quality gate on output | Word count + readability + keyword density | System self-corrects before a draft reaches editors |
 | Single client hardcoded | Client config table (Supabase) | Add a new client by adding one database row |
 | No pipeline visibility | Execution metrics + Looker Studio | Answer "is it working right now?" without opening n8n |
@@ -328,7 +328,7 @@ Publishers of regulatory updates, compliance guidance, and client-facing summari
 | Layer | Technology | Notes |
 |-------|-----------|-------|
 | Workflow engine | n8n Cloud | 6 active workflows, sub-workflow error routing |
-| AI model | OpenAI GPT-4.1-mini | typeVersion 2.1 (evaluation), 1.8 (drafting) |
+| AI model | OpenAI gpt-5.4-mini | typeVersion 2.1 (evaluation), 1.8 (drafting) |
 | Content sources | HTTP Request (RSS + scraping) | Multi-source with relevance scoring |
 | Source of truth | Google Sheets | Master article table + Bug Log |
 | Document output | Google Docs | Via Google Docs API node |
@@ -364,7 +364,7 @@ We added it as an afterthought on day two. Until then, there was no visibility i
 **3. Alert fatigue is an actual incident.**
 40 emails in 10 minutes from a transient 503 is enough to make engineers start ignoring the error mailbox. Once that happens, real failures get missed. Rate-limit error alerts from day one.
 
-**4. GPT-4.1-mini needs explicit output constraints in the system prompt.**
+**4. gpt-5.4-mini needs explicit output constraints in the system prompt.**
 Without "write a minimum of 800 words, maximum 1,200 words" in the prompt, the model produces outputs that vary wildly in length — sometimes 300 words, sometimes 2,000. Length constraints are not the model being restrictive; they're the model being calibrated to your editorial standard.
 
 **5. Idempotency should be designed in, not added later.**
