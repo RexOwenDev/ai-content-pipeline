@@ -11,7 +11,7 @@ This guide walks through importing the workflows into n8n, configuring credentia
 | Service | Purpose | Notes |
 |---------|---------|-------|
 | n8n Cloud (or self-hosted) | Workflow engine | Cloud: `n8n.io`. Self-hosted requires Node.js 20+ |
-| OpenAI | GPT-4.1-mini for evaluation and drafting | API key from `platform.openai.com` |
+| OpenAI | gpt-5.4-mini for evaluation and drafting | API key from `platform.openai.com` |
 | Google Workspace | Sheets, Docs, Gmail | Service account or OAuth credentials |
 | WordPress | Publishing target | REST API enabled, application password created |
 | Form platform (optional) | Webhook intake trigger | GravityForms, Typeform, or any platform that supports HMAC-signed webhooks |
@@ -61,7 +61,7 @@ Name these credentials:
 4. Name it: `WordPress Client Account`
 
 ### Webhook HMAC Secret
-The form intake workflow (`05-form-intake.json`) verifies HMAC-SHA256 signatures on incoming webhooks. You will need the shared secret that your form platform uses when signing requests. Store it as an environment variable or directly in the Code node (see note in the workflow file).
+The form intake workflow (`05-form-intake.json`) checks an HMAC SHA256 signature in the `X-Gf-Signature` header of every request. Create an n8n Variable named `WEBHOOK_SECRET` (Settings → Variables) holding the shared secret your form platform signs with. The Code node reads it as `$vars.WEBHOOK_SECRET` and stops the run if it is missing. Never paste the secret into the Code node.
 
 ---
 
@@ -188,7 +188,7 @@ If you're using the form intake workflow (`05-form-intake.json`):
 2. Copy the webhook URL from the Webhook node
 3. Paste it into your form platform's webhook configuration
 4. Set the form platform to sign requests with HMAC-SHA256
-5. Copy the shared secret and update the HMAC verification Code node (first node after the Webhook trigger) with your secret value
+5. Save the shared secret as the n8n Variable `WEBHOOK_SECRET` (see Webhook HMAC Secret above)
 
 To test without a real form submission: use a tool like Postman or `curl` to send a POST request to the webhook URL with a valid HMAC signature.
 
@@ -217,8 +217,8 @@ Activate in this order:
 ### Test Phase 3+4+5 (Content Pipeline)
 1. Find a PASS row in your master sheet
 2. Type `Approve` in column F (ADMIN ACTION)
-3. The workflow should trigger within 1 minute of the sheet update (Google Sheets trigger polls every 60 seconds by default)
-4. Check columns I (LINK TO GOOGLE DOC) and J (LINK TO WORDPRESS BACKEND) — both should populate within ~45 seconds of trigger
+3. The drafting workflow runs every 30 minutes. To test immediately, open `04-content-pipeline` in n8n and execute it manually
+4. When the run finishes, check columns I (LINK TO GOOGLE DOC) and J (LINK TO WORDPRESS BACKEND); both should be filled in
 
 ### Test Error Handler
 1. Temporarily introduce a bad URL in any workflow (e.g., a malformed Google Sheet ID)
@@ -245,7 +245,7 @@ Activate in this order:
 - Test the WordPress API directly: `curl -u username:app_password https://[YOUR_SITE]/wp-json/wp/v2/posts`
 
 **HMAC verification failing on webhook**
-- Confirm the shared secret in the Code node matches what your form platform uses
+- Confirm the n8n Variable `WEBHOOK_SECRET` matches the secret your form platform signs with
 - Some platforms encode the raw body before signing; others sign the parsed JSON. Check your platform's documentation for the exact signing method.
 
 **pairedItem errors in loop nodes**
