@@ -26,7 +26,7 @@
       "webhookId": "5cf8b9a3-8a99-44e2-83ab-58b7a7ec1f75",
       "credentials": {
         "gmailOAuth2": {
-          "id": "NMxhzXsSqk1u0lKF",
+          "id": "[CREDENTIAL_ID]",
           "name": "automation@[AGENCY_DOMAIN]"
         }
       }
@@ -98,7 +98,7 @@
       }
     },
     {
-      "id": "sheets-cmca-buglog",
+      "id": "sheets-buglog",
       "name": "Log to Bug Log",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
@@ -141,7 +141,7 @@
       },
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "NuvxHNUd8fNqRvXJ",
+          "id": "[CREDENTIAL_ID]",
           "name": "automation@[AGENCY_DOMAIN]"
         }
       },

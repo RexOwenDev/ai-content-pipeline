@@ -285,7 +285,7 @@
       "name": "Write PASS to Sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "8UYwvprhMGHKF6ra",
+          "id": "[CREDENTIAL_ID]",
           "name": "automation@[AGENCY_DOMAIN]"
         }
       },
@@ -415,7 +415,7 @@
       "name": "Write FAIL to Sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "8UYwvprhMGHKF6ra",
+          "id": "[CREDENTIAL_ID]",
           "name": "automation@[AGENCY_DOMAIN]"
         }
       },
@@ -462,7 +462,7 @@
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "8UYwvprhMGHKF6ra",
+          "id": "[CREDENTIAL_ID]",
           "name": "automation@[AGENCY_DOMAIN]"
         }
       },
@@ -531,7 +531,7 @@
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "8UYwvprhMGHKF6ra",
+          "id": "[CREDENTIAL_ID]",
           "name": "automation@[AGENCY_DOMAIN]"
         }
       },
